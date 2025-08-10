@@ -1,4 +1,9 @@
 # Final-stak
+> ⚠️ **Disclaimer**  
+> Konten pada website ini hanya untuk **hiburan** dan bersifat *iseng*.  
+> Semua produk, tema, dan cerita yang ditampilkan **tidak nyata**.  
+> Jangan dianggap serius. 😄
+
 
 Index
 <img width="1366" height="635" alt="image" src="https://github.com/user-attachments/assets/2177d633-df9e-4c84-95c9-b50a44bbe22e" />
