@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mamat Gun Shop - Display</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+/* reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; }
+
+/* base */
+body {
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #0f1724 0%, #0b1220 60%);
+  color:#e6eef6;
+  padding-top:72px; /* room for fixed navbar */
+}
+
+/* navbar override */
+.navbarBrand { font-weight:700; letter-spacing:0.3px; }
+
+/* container */
+.pageWrap {
+  max-width:1100px;
+  margin:24px auto;
+  padding:20px;
+  border-radius:12px;
+  background: rgba(10,14,20,0.55);
+  box-shadow: 0 10px 30px rgba(2,6,12,0.7);
+  border: 1px solid rgba(255,255,255,0.04);
+  overflow: visible;
+}
+
+/* heading */
+h1.mainTitle {
+  font-size:28px;
+  margin-bottom:8px;
+  text-shadow: 0 4px 18px rgba(0,0,0,0.7);
+}
+p.lead {
+  color: rgba(230,238,246,0.8);
+  margin-bottom:18px;
+}
+
+/* section wrappers */
+section.blockRow { margin-bottom:22px; border-radius:8px; padding:12px; border:1px solid rgba(255,255,255,0.03); }
+.sectionTitle { font-size:18px; margin-bottom:10px; color:#f1c40f; text-shadow:0 2px 6px rgba(0,0,0,0.6); }
+
+/* display block example (weapon rack) */
+.rackItem {
+  display:block;
+  background: linear-gradient(90deg, rgba(20,20,22,0.9), rgba(35,35,38,0.85));
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:8px;
+  border:1px solid rgba(241,196,15,0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+.rackHead { font-weight:600; color:#ffd166; font-size:16px; margin-bottom:6px; }
+.rackMeta { font-size:13px; color:rgba(230,238,246,0.8); }
+
+/* display inline example (small accessories) */
+.inlineRow { margin-top:6px; }
+.accessory {
+  display:inline;
+  padding:6px 10px;
+  margin-right:8px;
+  background: rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.03);
+  border-radius:6px;
+  font-size:13px;
+  color:#dbeafe;
+}
+
+/* display inline block example (product cards) */
+.cardShelf { margin-top:10px; }
+.productCard {
+  display:inline-block;
+  width:200px;
+  vertical-align:top;
+  margin-right:12px;
+  margin-bottom:12px;
+  padding:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.04);
+  border-radius:10px;
+  box-shadow: 0 8px 22px rgba(3,6,12,0.6);
+  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+}
+.productCard img {
+  width:100%;
+  height:120px;
+  object-fit:cover;
+  border-radius:8px;
+  margin-bottom:8px;
+  filter: brightness(0.95);
+  transition: transform 220ms ease, filter 220ms ease;
+}
+.productCard:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.55);
+  filter: saturate(1.05);
+}
+.productCard:hover img { transform: scale(1.03); filter: brightness(1.06) contrast(1.02); }
+.productTitle { font-weight:700; font-size:15px; margin-bottom:6px; color:#fff; text-shadow: 0 3px 12px rgba(0,0,0,0.6); }
+.productPrice { color:#ff7a59; font-weight:700; }
+
+/* display none example (out of stock) */
+.hiddenItem { display:none; }
+
+/* position examples */
+.positionDemoWrap { position:relative; min-height:120px; margin-top:14px; border-radius:8px; padding:12px; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); }
+.staticNote { position:static; margin-bottom:8px; padding:8px; border-radius:6px; border:1px dashed rgba(255,255,255,0.04); background: rgba(0,0,0,0.25); color:#dbeafe; }
+.promoBadge {
+  position:absolute;
+  top:12px;
+  right:12px;
+  background: linear-gradient(45deg, rgba(242,38,19,0.95), rgba(194,24,7,0.95));
+  color:white;
+  padding:8px 10px;
+  border-radius:8px;
+  font-weight:700;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transform: rotate(-6deg);
+  text-shadow:0 2px 6px rgba(0,0,0,0.6);
+}
+.infoFixed {
+  position:fixed;
+  left:18px;
+  bottom:18px;
+  background: rgba(8,12,16,0.9);
+  color: #bfe6c9;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* overflow examples */
+.magBoxRow { display:flex; gap:12px; margin-top:12px; }
+.magBox {
+  width:220px;
+  height:110px;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.04);
+  background: rgba(12,16,20,0.6);
+  color:#dbeafe;
+  font-size:13px;
+}
+.magBoxHidden { overflow:hidden; }
+.magBoxAuto { overflow:auto; }
+.magBoxScroll { overflow:scroll; }
+
+/* scroll styling for magBoxAuto */
+.magBoxAuto::-webkit-scrollbar { width:8px; height:8px; }
+.magBoxAuto::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius:6px; }
+
+/* tiny helpers */
+.smallMuted { color: rgba(230,238,246,0.6); font-size:13px; }
+.btnNeutral {
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:8px;
+  background: rgba(255,255,255,0.03);
+  color:#e6eef6;
+  border:1px solid rgba(255,255,255,0.03);
+  text-decoration:none;
+  transition: background 180ms ease, transform 120ms ease;
+}
+.btnNeutral:hover { background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+
+/* animations */
+@keyframes fadeInUp {
+  from { transform: translateY(10px); opacity:0; }
+  to   { transform: translateY(0); opacity:1; }
+}
+.productCard { animation: fadeInUp 500ms ease both; }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+  <div class="container">
+    <a class="navbar-brand navbarBrand" href="index.html">Mamat Gun Shop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu" aria-controls="navmenu" aria-expanded="false" aria-label="toggle">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">Tentang Kami</a></li>
+        <li class="nav-item"><a class="nav-link active" href="display.html">Display Produk</a></li>
+        <li class="nav-item"><a class="nav-link" href="sections.html">Sections</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="pageWrap">
+
+  <h1 class="mainTitle">Etalase Display khusus</h1>
+  <p class="lead">Contoh nyata pemakaian properti display position overflow dan spacing, langsung di konteks produk Mamat Gun Shop</p>
+
+  <!-- block example as weapon rack -->
+  <section class="blockRow">
+    <div class="sectionTitle">Rak Senjata panjang</div>
+    <div class="rackItem">
+      <div class="rackHead">Senapan runduk M82</div>
+      <div class="rackMeta">Akurasi tinggi fokus jarak jauh. Kaliber besar. Kondisi: tersedia</div>
+    </div>
+    <div class="rackItem">
+      <div class="rackHead">Senapan serbu AK47</div>
+      <div class="rackMeta">Stabil, populer, cocok kolektor. Kondisi: tersedia</div>
+    </div>
+  </section>
+
+  <!-- inline example as small accessories -->
+  <section class="blockRow">
+    <div class="sectionTitle">Aksesoris cepat</div>
+    <div class="inlineRow smallMuted">tampilan inline item</div>
+    <div class="inlineRow" style="margin-top:8px">
+      <span class="accessory">magazine 30rd</span>
+      <span class="accessory">peluru 5.56</span>
+      <span class="accessory">scope x4</span>
+      <span class="accessory">grip</span>
+    </div>
+  </section>
+
+  <!-- inline block example as product cards with absolute promo badge -->
+  <section class="blockRow">
+    <div class="sectionTitle">Koleksi unit</div>
+
+    <div class="cardShelf">
+      <div class="productCard" style="position:relative">
+        <img src="pngwing.com.png" alt="AK47" />
+        <div class="productTitle">AK 47 Classic</div>
+        <div class="smallMuted">Kaliber 7.62 mm</div>
+        <div class="productPrice">Rp 12.500.000</div>
+        <div class="promoBadge">diskon 15 persen</div>
+      </div>
+
+      <div class="productCard" style="position:relative">
+        <img src="pngegg.png" alt="Desert Eagle" />
+        <div class="productTitle">Desert Eagle</div>
+        <div class="smallMuted">Pistol .50 AE</div>
+        <div class="productPrice">Rp 8.900.000</div>
+      </div>
+
+      <div class="productCard" style="position:relative">
+        <img src="pngwing.com (1).png" alt="Sniper" />
+        <div class="productTitle">M82 Sniper</div>
+        <div class="smallMuted">Runduk jarak jauh</div>
+        <div class="productPrice">Rp 25.000.000</div>
+      </div>
+
+      <!-- out of stock item hidden using display none -->
+      <div class="productCard hiddenItem" id="soldOutCard">
+        <img src="Wojak.png" alt="sold out" />
+        <div class="productTitle">Unit kosong</div>
+        <div class="smallMuted">stok habis</div>
+        <div class="productPrice">-</div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:8px">
+      <a class="btnNeutral" href="#" id="toggleSold">tampilkan item stok habis</a>
+    </div>
+  </section>
+
+  <!-- position demo with static absolute fixed -->
+  <section class="blockRow">
+    <div class="sectionTitle">Contoh posisi</div>
+    <div class="positionDemoWrap">
+      <div class="staticNote">note ini posisi static dan mengikuti flow layout</div>
+      <div class="positionAbsolute">Label posisi absolute ditempel pada container</div>
+    </div>
+
+    <div style="margin-top:14px" class="smallMuted">kotak info tetap terlihat karena posisi fixed</div>
+    <div class="infoFixed">hubungi cs 0812 3456 7890</div>
+  </section>
+
+  <!-- overflow demo as magazine boxes -->
+  <section class="blockRow">
+    <div class="sectionTitle">Kotak magazin contoh overflow</div>
+    <div class="magBoxRow">
+      <div class="magBox magBoxHidden">
+        <div style="margin-bottom:6px; font-weight:700">magasin hidden</div>
+        <div class="smallMuted">teks panjang terpotong dan tidak muncul sisa</div>
+        <p style="margin-top:6px; font-size:13px; color:#cfe7ff">
+          Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+
+      <div class="magBox magBoxAuto">
+        <div style="margin-bottom:6px; font-weight:700">magasin auto</div>
+        <div class="smallMuted">scroll muncul bila terlalu panjang</div>
+        <p style="margin-top:6px; font-size:13px; color:#cfe7ff">
+          Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+      </div>
+
+      <div class="magBox magBoxScroll">
+        <div style="margin-bottom:6px; font-weight:700">magasin scroll</div>
+        <div class="smallMuted">scroll selalu terlihat</div>
+        <p style="margin-top:6px; font-size:13px; color:#cfe7ff">
+          banyak teks banyak teks banyak teks banyak teks banyak teks banyak teks banyak teks banyak teks banyak teks banyak teks banyak teks
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // toggle display none example so user can see display none in action
+  const toggle = document.getElementById('toggleSold');
+  const sold = document.getElementById('soldOutCard');
+  let shown = false;
+  toggle.addEventListener('click', function(e){
+    e.preventDefault();
+    shown = !shown;
+    if(shown){
+      sold.style.display = 'inline-block';
+      toggle.textContent = 'sembunyikan item stok habis';
+    } else {
+      sold.style.display = 'none';
+      toggle.textContent = 'tampilkan item stok habis';
+    }
+  });
+
+  // small accessibility: ensure absolute label placed after load so it is discoverable
+  window.addEventListener('load', function(){
+    const absoluteLabel = document.querySelector('.positionAbsolute');
+    absoluteLabel.textContent = 'label absolute contoh';
+    absoluteLabel.style.padding = '8px';
+    absoluteLabel.style.background = 'rgba(255,255,255,0.06)';
+    absoluteLabel.style.color = '#ffdede';
+    absoluteLabel.style.borderRadius = '6px';
+  });
+</script>
+
+</body>
+</html>
